@@ -8,8 +8,11 @@ export default function Home({ data }: { data: Grant[]}) {
   return (
     <>
       <Head>
-        <title>My App</title>
+        <title>Solana Grant Finder</title>
       </Head>
+    <h1 className="text-3xl font-bold underline">
+      Hello world!
+    </h1>
       <div>
         <h1>Solana Grant Finder</h1>
         <GrantsView data={data}/>
@@ -49,10 +52,12 @@ export async function getStaticProps() {
     data.push({
       id: record.id,
       name: record.get('Name') as string,
-      categories: (record.get('Category') || []) as string[],
+      category: (record.get('Category') || []) as string[],
       rfp: Boolean(record.get('RFP'))
     })
   }
+  
+  console.log(data)
   
   return {
     props: { data: data }
