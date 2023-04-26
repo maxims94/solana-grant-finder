@@ -26,7 +26,7 @@
 }
 
 .HeaderSubtitle {
-    margin-top: 525px;
+    margin-top: 450px;
     font-size: 60pt;
 }
 
@@ -80,8 +80,15 @@
     background-color:#121212;
     border: 1px solid #8B8B8B;
     box-sizing: border-box;
-    padding: 0 15px;
+    padding: 0 10px;
+    width: 500px;
     height: 50px;
+}
+
+.preload {
+    position:absolute;
+    top:-9999px;
+    left:-9999px;
 }
 
 .GrantSearchFormRow .FormLabel {
@@ -122,14 +129,36 @@
     padding:20px 40px;
     border: 1px solid #8B8B8B;
     font-size: 16pt;
+    cursor: pointer;
 }
 
-.GrantSearchResult a:hover {
-    color: "#FF15AF"
+.GrantSearchResultName, .GrantSearchResultOrgName {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.GrantSearchResultName a, .GrantSearchResultOrgName a {
+    display: block;
+    width: 32px;
+    height: 32px;
+    margin-left:10px;
+}
+
+.GrantSearchResultName a {
+    background-image:url('../public/link-icon.svg');
+}
+
+.GrantSearchResultOrgName a {
+    background-image:url('../public/link-icon-gray.svg');
+}
+
+.GrantSearchResultName a:hover, .GrantSearchResultOrgName a:hover {
+    background-image:url('../public/link-icon-hover.svg');
 }
 
 .GrantSearchResultProgress {
-    width:100px;
+    width:90px;
 }
 
 .GrantSearchResultName {
@@ -137,10 +166,20 @@
     word-wrap: break-word;
 }
 
+.GrantSearchResultIcon {
+    width: 75px;
+}
+.GrantSearchResultIcon img {
+    width: 30px;
+    height: 30px;
+    border-radius: 9999px;
+}
+
 .GrantSearchResultOrgName {
     flex-grow: 1;
     width:max-content;
     word-wrap: break-word;
+    color: #BDBDBD;
 }
 
 .GrantSearchResultExpand {
@@ -160,17 +199,39 @@
 }
 .Footer {
     position:relative;
-    margin: 100px 100px 0 100px;
+    margin-top: 100px;
+}
+
+.FooterInner {
+    margin: 0 100px;
+
     border-top: 1px solid #8B8B8B;
     padding: 50px;
     text-align:center;
 }
 
+.Outer {
+    position:relative;
+    overflow:hidden;
+}
 .FooterImage {
-    position:absolute;
-    bottom: 0;
-    right: 0;
-    width:100px;
-    height:100px;
-    background-color:blue;
+    position: absolute; 
+    width: 1429px;
+    height: 688px;
+    bottom: -400px;
+    left: 600px;
+    background: radial-gradient(50% 50% at 50% 50%, rgba(128, 2, 115, 0.1) 0%, rgba(128, 2, 115, 0) 100%);
+    
+    z-index: -100;
+}
+
+.FooterImage2 {
+    position: absolute; 
+    width: 1370px;
+    height: 849px;
+    left: 0;
+    bottom: -500px;
+
+    background: radial-gradient(50% 50% at 50% 50%, rgba(72, 2, 128, 0.1) 0%, rgba(72, 2, 128, 0) 100%);
+    z-index: -100;
 }

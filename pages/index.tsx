@@ -29,6 +29,7 @@ import solanaLogo from '../public/solana-logo.svg'
 export default function Home({ data }: { data: Grant[]}) {
   return (
     <div className={styles.Outer}>
+    
       <div className={styles.Header} style={{ backgroundImage: `url(${headerBg.src})` }}>
         <div className={titleFont.className}>
           <div className={styles.HeaderTitle}>
@@ -43,8 +44,10 @@ export default function Home({ data }: { data: Grant[]}) {
 
       <GrantSearch data={data} titleFont={titleFont} textFont={textFont}/>
 
+      <div className={styles.FooterImage}></div>
+      <div className={styles.FooterImage2}></div>
+
       <div className={styles.Footer}>
-        <div className={styles.FooterImage}></div>
         <div className={styles.FooterInner}>
         Copyright by Grant Finder
         </div>

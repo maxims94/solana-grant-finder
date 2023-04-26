@@ -6,7 +6,8 @@ import Image from 'next/image'
 import searchIcon from '../public/search-icon.svg'
 
 import arrowDown from '../public/arrow-down.svg'
-import { Grand_Hotel } from 'next/font/google';
+
+import linkIconHover from '../public/link-icon-hover.svg'
 
 const cosineSimilarity = require('compute-cosine-similarity')
 
@@ -90,15 +91,23 @@ export default function GrantSearch({ data, titleFont, textFont }: { data: Grant
 
       console.log("Unnormalized relevance:", intermediary.map(x => x[0]))
 
-      const normalized = intermediary.map(([relevance, item]) => ([
+      const final = intermediary.map(([relevance, item]) => ([
         (relevance - minRelevance) / relevanceRange,
         item
       ]))
       */
 
-      const normalized = intermediary
+      // no normalization
+      const final = intermediary
 
-      const results = normalized.map(([relevance, item]) => ({
+      /*
+      // 1/(1-x)
+      const final = intermediary.map(([relevance, item]) => (
+        [(1/(1-relevance)).toFixed(2), item]
+      ))
+      */
+
+      const results = final.map(([relevance, item]) => ({
         relevance,
         id: item.id,
         name: item.name,
@@ -138,6 +147,9 @@ export default function GrantSearch({ data, titleFont, textFont }: { data: Grant
   return (
 
     <div className={styles.GrantSearch}>
+      <div className={styles.preload}>
+        <Image src={linkIconHover} alt="Link" width={25} height={25} />
+      </div>
       <div className={styles.GrantSearchInner}>
         <h1 className={titleFont.className}>Explore Grants</h1>
 
@@ -177,15 +189,31 @@ export default function GrantSearch({ data, titleFont, textFont }: { data: Grant
               
               return (
                 <>
-                <div className={styles.GrantSearchResult} key={grant.id}>
+                <div className={styles.GrantSearchResult} onClick={expandGrantResult(grant.id)} key={grant.id}>
                   {
+                    /*
+                    grant.relevance !== null ?
+                    <div className={styles.GrantSearchResultProgress}>{grant.relevance}</div>:
+                    ""
+                    */
                     grant.relevance !== null ?
                     <div className={styles.GrantSearchResultProgress}>{Math.floor(grant.relevance * 100)}%</div>:
                     ""
                   }
-                  <div className={styles.GrantSearchResultName}><a href={grant.link} target="_blank">{grant.name}</a></div>
-                  <div className={styles.GrantSearchResultOrgName}><a href={grant.org_link} target="_blank">{grant.org_name}</a></div>
-                  <div className={styles.GrantSearchResultExpand} onClick={expandGrantResult(grant.id)}>
+                  <div className={styles.GrantSearchResultIcon}>
+                    <img src={grant.icon_path} alt="Grant Icon" />
+                  </div>
+                  <div className={styles.GrantSearchResultName}>
+                    {grant.name}
+                    <a href={grant.link} target="_blank">
+                    </a>
+                  </div>
+                  <div className={styles.GrantSearchResultOrgName}>
+                    {grant.org_name}
+                    <a href={grant.org_link} target="_blank">
+                    </a>
+                  </div>
+                  <div className={styles.GrantSearchResultExpand}>
                     <Image src={arrowDown} alt="Expand" width={28} height={36} style={{ transform: grantResultsExpand[grantIndex] ? 'rotate(180deg)' : ''}}/>
                   </div>
                 </div>
