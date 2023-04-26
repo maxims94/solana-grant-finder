@@ -1,21 +1,26 @@
 import Head from 'next/head'
-import GrantsView from '../components/GrantsView'
+import GrantSearch from '../components/GrantSearch'
 import Airtable from 'airtable';
+
+import styles from '../styles/Home.module.css'
 
 import { Grant } from '@/types/Grant';
 
 export default function Home({ data }: { data: Grant[]}) {
   return (
     <>
-      <Head>
-        <title>Solana Grant Finder</title>
-      </Head>
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
-      <div>
-        <h1>Solana Grant Finder</h1>
-        <GrantsView data={data}/>
+      <div className={styles.Container}>
+        <div className={styles.Header}>
+          <h1>Solana Grant Finder</h1>
+          <h1>Building on Solana?</h1>
+          <h1>Get paid!</h1>
+        </div>
+          
+        <GrantSearch data={data}/>
+
+        <div className={styles.Footer}>
+          Copyright by Grant Finder
+        </div>
       </div>
     </>
   )

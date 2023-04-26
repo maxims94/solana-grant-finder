@@ -1,0 +1,27 @@
+.Container {
+    width: 1000px;
+    border:1px solid black;
+}
+
+.Header {
+    height: 250px;
+}
+
+.Footer {
+    height: 250px;
+}
+
+.GrantSearch {
+    padding-top: 50px;    
+}
+
+.GrantSearchForm {
+    padding:10px;
+    border: 1px solid grey;
+}
+
+.GrantSearchFormRow {
+    display: flex;
+    flex-direction: row;
+    margin-bottom:10px;
+}

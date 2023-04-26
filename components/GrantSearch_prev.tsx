@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { Grant } from '../types/Grant'
 
-export default function GrantsView({ data }: { data: Grant[] }) {
+export default function GrantSearch({ data }: { data: Grant[] }) {
   
   const [sortKey, setSortKey] = useState('name');
   const [sortOrder, setSortOrder] = useState('asc');
