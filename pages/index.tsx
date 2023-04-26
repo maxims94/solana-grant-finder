@@ -108,7 +108,7 @@ export async function getStaticProps() {
     data.push(new_item)
   }
 
-  console.log(data)
+  // console.log(data)
   
   console.log("Request embedding...")
   
@@ -136,6 +136,7 @@ export async function getStaticProps() {
   //console.log(data)
   
   return {
-    props: { data: data }
+    props: { data: data },
+    revalidate: 10
   }
 }
