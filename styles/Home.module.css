@@ -1,6 +1,15 @@
-.Container {
-    width: 1000px;
-    border:1px solid black;
+.Outer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Main {
+    display: flex;
+    width: 80%;
+    min-width:800px;
+    max-width:1080px;
+    margin:0 100px;
 }
 
 .Header {

@@ -10,7 +10,7 @@ import { Grant } from '@/types/Grant';
 export default function Home({ data }: { data: Grant[]}) {
   return (
     <>
-      <div className={styles.Container}>
+      <div className={styles.Main}>
         <div className={styles.Header}>
           <h1>Solana Grant Finder</h1>
           <h1>Building on Solana?</h1>
