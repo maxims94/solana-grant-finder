@@ -1,6 +1,8 @@
 .Outer {
     display: flex;
     flex-direction: column;
+    min-height:100vp;
+    justify-content: space-between;
 }
 
 .Header {
@@ -32,21 +34,72 @@
     display: inline;
 }
 
-.Footer {
-    height: 250px;
+.GrantSearch {
+    display: flex;
+    flex-direction: column;
+    padding: 144px 100px 50px 100px; 
 }
 
-.GrantSearch {
-    padding-top: 50px;    
+.GrantSearch h1 {
+    font-size: 60pt;
+    margin-bottom:30px;
 }
 
 .GrantSearchForm {
-    padding:10px;
-    border: 1px solid grey;
+    padding:40px;
+    border: 1px solid #8B8B8B;
+    font-size: 22pt;
+}
+
+.QueryInput {
+    background-color:#121212;
+    border: 1px solid #8B8B8B;
+}
+
+.GrantSearchFormRow .FormLabel {
+    font-weight: 600;
+    margin-right: 30px;
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+    text-decoration-color: #2A55C3;
+}
+
+.GrantSearchFormRow .CheckboxOption {
+    margin-left: 0px;
+    margin-right: 30px;
+}
+.GrantSearchFormRow .CheckboxInput {
+    width:22pt;
+    height:22pt;
 }
 
 .GrantSearchFormRow {
     display: flex;
     flex-direction: row;
-    margin-bottom:10px;
+}
+
+.GrantSearchResult {
+    display: flex;
+    flex-direction: row;
+    margin-top:30px;
+    padding:40px;
+    border: 1px solid #8B8B8B;
+    font-size: 22pt;
+}
+
+.Footer {
+    position:relative;
+    margin: 100px 100px 0 100px;
+    border-top: 1px solid #8B8B8B;
+    padding: 50px;
+    text-align:center;
+}
+
+.FooterImage {
+    position:absolute;
+    bottom: 0;
+    right: 0;
+    width:100px;
+    height:100px;
+    background-color:blue;
 }

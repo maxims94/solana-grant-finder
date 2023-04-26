@@ -4,18 +4,6 @@ import styles from '../styles/Home.module.css'
 
 const cosineSimilarity = require('compute-cosine-similarity')
 
-import { Rubik, IBM_Plex_Mono } from 'next/font/google';
-
-export const titleFont = Rubik({
-    subsets: ['latin'],
-    weight: ['400', '700'],
-});
-
-export const textFont = IBM_Plex_Mono({
-    subsets: ['latin'],
-    weight: ['400', '700'],
-});
-
 interface GrantResult {
   relevance: number, // [0,1]
   id: string,
@@ -27,7 +15,7 @@ interface GrantResult {
   org_link: string, 
 }
 
-export default function GrantSearch({ data }: { data: Grant[] }) {
+export default function GrantSearch({ data, titleFont, textFont }: { data: Grant[], titleFont: any, textFont: any }) {
   
   const [query, setQuery] = useState('');
   
@@ -98,37 +86,43 @@ export default function GrantSearch({ data }: { data: Grant[] }) {
   return (
 
     <div className={styles.GrantSearch}>
-      <h1>Explore Grants</h1>
+      <h1 className={titleFont.className}>Explore Grants</h1>
 
-      <form className={styles.GrantSearchForm} onSubmit={onSubmit}>
-        <div className={styles.GrantSearchFormRow}>
-          <label>
-            SEARCH:
-            <input type="text" name="query" defaultValue="nft marketplace"/>
-          </label>
-          <input type="submit" value="Search" />
-        </div>
+      <div className={textFont.className}>
+        <form className={styles.GrantSearchForm} onSubmit={onSubmit}>
+          <div className={styles.GrantSearchFormRow} style={{marginBottom: '50px'}}>
+            <label>
+              <span className={styles.FormLabel}>Search:</span>
+              <input type="text" name="query" defaultValue="nft marketplace" className={styles.QueryInput}/>
+            </label>
+            <input type="submit" value="Search" />
+          </div>
 
-        <div className={styles.GrantSearchFormRow}>
-          <label>
-            Type:
-            <input type="checkbox" name="type" /> RFP
-            <input type="checkbox" name="type" /> Grant
-          </label>
+          <div className={styles.GrantSearchFormRow}>
+            <label>
+              <span className={styles.FormLabel}>Type:</span>
+              <input className={styles.CheckboxInput} type="checkbox" name="type[]" /> <span className={styles.CheckboxOption}>RFP</span>
+              <input className={styles.CheckboxInput} type="checkbox" name="type[]" /> <span className={styles.CheckboxOption}>Grant</span>
+            </label>
+          </div>
+        </form>
+      </div>
+
+      <div className={textFont.className}>
+        <div className={styles.GrantSearchResultsContainer}>
+          {
+            grantResults.map((grant: GrantResult) => {
+              return (
+                <div className={styles.GrantSearchResult} key={grant.id}>
+                  <div>{Math.floor(grant.relevance * 100)}%</div>
+                  <div>{grant.name}</div>
+                  <div>{grant.org_name}</div>
+                  <div>v</div>
+                </div>
+              )
+            })
+          }
         </div>
-      </form>
-      
-      <div className={styles.GrantSearchResultsContainer}>
-        {
-          grantResults.map((grant: GrantResult) => {
-            return (
-              <div className={styles.GrantSearchResult} key={grant.id}>
-                <span>{grant.relevance}</span>
-                <span>{grant.name}</span>
-              </div>
-            )
-          })
-        }
       </div>
 
     </div>

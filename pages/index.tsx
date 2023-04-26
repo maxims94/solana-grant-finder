@@ -16,6 +16,11 @@ export const titleFont = Rubik({
     weight: ['400', '500', '600', '700'],
 });
 
+export const textFont = IBM_Plex_Mono({
+    subsets: ['latin'],
+    weight: ['400', '500', '600', '700'],
+});
+
 import headerBg from '../public/header-bg.png'
 import grantFinderIcon from '../public/grant-finder-icon.svg'
 
@@ -36,10 +41,13 @@ export default function Home({ data }: { data: Grant[]}) {
         </div>
       </div>
 
-      <GrantSearch data={data}/>
+      <GrantSearch data={data} titleFont={titleFont} textFont={textFont}/>
 
       <div className={styles.Footer}>
+        <div className={styles.FooterImage}></div>
+        <div className={styles.FooterInner}>
         Copyright by Grant Finder
+        </div>
       </div>
     </div>
   )
