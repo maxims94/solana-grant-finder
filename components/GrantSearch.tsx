@@ -4,6 +4,18 @@ import styles from '../styles/Home.module.css'
 
 const cosineSimilarity = require('compute-cosine-similarity')
 
+import { Rubik, IBM_Plex_Mono } from 'next/font/google';
+
+export const titleFont = Rubik({
+    subsets: ['latin'],
+    weight: ['400', '700'],
+});
+
+export const textFont = IBM_Plex_Mono({
+    subsets: ['latin'],
+    weight: ['400', '700'],
+});
+
 interface GrantResult {
   relevance: number, // [0,1]
   id: string,

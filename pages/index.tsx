@@ -3,27 +3,45 @@ import GrantSearch from '../components/GrantSearch'
 import Airtable from 'airtable';
 import { Configuration, OpenAIApi } from "openai";
 
+import Image from 'next/image'
+
 import styles from '../styles/Home.module.css'
 
 import { Grant } from '@/types/Grant';
 
+import { Rubik, IBM_Plex_Mono } from 'next/font/google';
+
+export const titleFont = Rubik({
+    subsets: ['latin'],
+    weight: ['400', '500', '600', '700'],
+});
+
+import headerBg from '../public/header-bg.png'
+import grantFinderIcon from '../public/grant-finder-icon.svg'
+
+import solanaLogo from '../public/solana-logo.svg'
+
 export default function Home({ data }: { data: Grant[]}) {
   return (
-    <>
-      <div className={styles.Main}>
-        <div className={styles.Header}>
-          <h1>Solana Grant Finder</h1>
-          <h1>Building on Solana?</h1>
-          <h1>Get paid!</h1>
-        </div>
-          
-        <GrantSearch data={data}/>
-
-        <div className={styles.Footer}>
-          Copyright by Grant Finder
+    <div className={styles.Outer}>
+      <div className={styles.Header} style={{ backgroundImage: `url(${headerBg.src})` }}>
+        <div className={titleFont.className}>
+          <div className={styles.HeaderTitle}>
+            <Image src={grantFinderIcon} alt="Grant Finder" width={60} height={60} />
+            <h1>Grant Finder</h1>
+          </div>
+          <div className={styles.HeaderSubtitle}>
+            <h1>Building on <img src={solanaLogo.src} alt="Solana" width={75} height={66} /> Solana?<br />Get paid!</h1>
+          </div>
         </div>
       </div>
-    </>
+
+      <GrantSearch data={data}/>
+
+      <div className={styles.Footer}>
+        Copyright by Grant Finder
+      </div>
+    </div>
   )
 }
 
