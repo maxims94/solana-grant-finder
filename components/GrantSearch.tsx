@@ -1,6 +1,9 @@
 import { useState, useCallback } from 'react';
 import { Grant } from '../types/Grant'
 import styles from '../styles/Home.module.css'
+import Image from 'next/image'
+
+import searchIcon from '../public/search-icon.svg'
 
 const cosineSimilarity = require('compute-cosine-similarity')
 
@@ -27,6 +30,24 @@ export default function GrantSearch({ data, titleFont, textFont }: { data: Grant
     console.log("submit")
 
     const query = event.target.query.value;
+    
+    if (query === '') {
+      const results: GrantResult[] = data.map(item => ({
+        relevance: 0,
+        id: item.id,
+        name: item.name,
+        icon_path: item.icon_path,
+        description: item.description,
+        link: item.link,
+        org_name: item.org_name,
+        org_link: item.org_link
+      }))
+      
+      results.sort((a, b) => (a.org_name+a.name).localeCompare(b.org_name+b.name))
+      
+      setGrantResults(results)
+      return
+    }
 
     (async () => {
 
@@ -72,7 +93,7 @@ export default function GrantSearch({ data, titleFont, textFont }: { data: Grant
         link: item.link,
         org_name: item.org_name,
         org_link: item.org_link,
-      }))
+      })).filter(x => x.relevance > 0.1)
 
       setGrantResults(results)
 
@@ -96,7 +117,9 @@ export default function GrantSearch({ data, titleFont, textFont }: { data: Grant
                 <span className={styles.FormLabel}>Search:</span>
                 <input type="text" name="query" defaultValue="nft marketplace" className={styles.QueryInput} />
               </label>
-              <input type="submit" value="" className={styles.SearchButton} />
+              <button type="submit" className={styles.SearchButton}>
+                <Image src={searchIcon} alt="Search" width={20} height={20} />
+              </button>
             </div>
 
             <div className={styles.GrantSearchFormRow}>

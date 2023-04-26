@@ -62,6 +62,22 @@
     font-size: 16pt;
 }
 
+.SearchButton {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    background-color: #2855CA;
+    color: white;
+    padding: 5px;
+    margin-left: 10px;
+    width: 35px;
+    height: 35plx;
+}
+
+.SearchButton:hover {
+    background-color: #3661cc;
+}
+
 .QueryInput {
     background-color:#121212;
     border: 1px solid #8B8B8B;
