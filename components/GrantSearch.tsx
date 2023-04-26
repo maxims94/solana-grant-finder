@@ -8,7 +8,7 @@ interface GrantResult {
   relevance: number, // [0,1]
   id: string,
   name: string,
-  icon_path: string | null,
+  icon_path: string,
   description: string,
   link: string,
   org_name: string,

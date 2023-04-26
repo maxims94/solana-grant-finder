@@ -1,7 +1,7 @@
 export interface Grant {
   id: string;
   name: string;
-  icon_path: string | null;
+  icon_path: string;
   description: string;
   is_rfp: boolean;
   link: string;

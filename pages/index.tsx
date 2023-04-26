@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import GrantSearch from '../components/GrantSearch'
-import Airtable from 'airtable';
+import Airtable, { Attachment } from 'airtable';
 import { Configuration, OpenAIApi } from "openai";
 
 import Image from 'next/image'
@@ -81,12 +81,13 @@ export async function getStaticProps() {
   const data: Grant[] = []
 
   for(const record of result) {
-    data.push({
+    
+    const icon = record.get('Icon') as Attachment[]
+    
+    const new_item: Grant = {
       id: record.id,
       name: record.get('Name') as string,
-      icon_path: null,
-      //TODO
-      //icon_path: record.get('Icon') as string,
+      icon_path: icon[0].url,
       description: record.get('Description') as string,
       is_rfp: Boolean(record.get('RFP')),
       link: record.get('Link') as string,
@@ -94,14 +95,27 @@ export async function getStaticProps() {
       org_name: record.get('Organization name') as string,
       org_link: record.get('Organization link') as string,
       embedding: null
-    })
+    }
+
+    for(const key in new_item) {
+      // TODO: better
+      if((new_item as any)[key] === undefined) {
+        console.error("Undefined value for", key, new_item)
+        throw new Error("Undefined value")
+      }
+    }
+
+    data.push(new_item)
   }
+
+  console.log(data)
   
   console.log("Request embedding...")
   
   if(!process.env.OPENAI_API_KEY) {
     throw new Error("Missing OpenAI API key")
   }
+
 
   const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
