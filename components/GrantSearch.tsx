@@ -8,7 +8,7 @@ import searchIcon from '../public/search-icon.svg'
 const cosineSimilarity = require('compute-cosine-similarity')
 
 interface GrantResult {
-  relevance: number, // [0,1]
+  relevance: number | null, // [0,1]
   id: string,
   name: string,
   icon_path: string,
@@ -30,10 +30,10 @@ export default function GrantSearch({ data, titleFont, textFont }: { data: Grant
     console.log("submit")
 
     const query = event.target.query.value;
-    
+
     if (query === '') {
       const results: GrantResult[] = data.map(item => ({
-        relevance: 0,
+        relevance: null,
         id: item.id,
         name: item.name,
         icon_path: item.icon_path,
@@ -42,9 +42,9 @@ export default function GrantSearch({ data, titleFont, textFont }: { data: Grant
         org_name: item.org_name,
         org_link: item.org_link
       }))
-      
-      results.sort((a, b) => (a.org_name+a.name).localeCompare(b.org_name+b.name))
-      
+
+      results.sort((a, b) => (a.org_name + a.name).localeCompare(b.org_name + b.name))
+
       setGrantResults(results)
       return
     }
@@ -112,7 +112,7 @@ export default function GrantSearch({ data, titleFont, textFont }: { data: Grant
 
         <div className={textFont.className}>
           <form className={styles.GrantSearchForm} onSubmit={onSubmit}>
-            <div className={styles.GrantSearchFormRow} style={{ marginBottom: '50px' }}>
+            <div className={styles.GrantSearchFormRow} style={{ marginBottom: '10px' }}>
               <label>
                 <span className={styles.FormLabel}>Search:</span>
                 <input type="text" name="query" defaultValue="nft marketplace" className={styles.QueryInput} />
@@ -122,31 +122,41 @@ export default function GrantSearch({ data, titleFont, textFont }: { data: Grant
               </button>
             </div>
 
-            <div className={styles.GrantSearchFormRow}>
+            <div className={styles.GrantSearchFormRow} style={{ marginBottom: '50px', fontSize: '10pt', color: '#838383' }}>
+              e.g. “nft marketplace”, “hard dev problem”, “community project europe”, “writing defi”, “solana pay”<br />Leave empty to show all
+            </div>
+
+            <div className={styles.GrantSearchFormRow} style={{ marginBottom: '10px' }}>
               <label>
                 <span className={styles.FormLabel}>Type:</span>
                 <input className={styles.CheckboxInput} type="checkbox" name="type[]" /> <span className={styles.CheckboxOption}>RFP</span>
                 <input className={styles.CheckboxInput} type="checkbox" name="type[]" /> <span className={styles.CheckboxOption}>Grant</span>
               </label>
             </div>
+
+            <div className={styles.GrantSearchFormRow} style={{ fontSize: '10pt', color: '#838383' }}>
+              Looking for an idea? Make sure to check RFP (Request for Proposal)!
+            </div>
           </form>
         </div>
 
         <div className={textFont.className}>
-          <div className={styles.GrantSearchResultsContainer}>
-            {
-              grantResults.map((grant: GrantResult) => {
-                return (
-                  <div className={styles.GrantSearchResult} key={grant.id}>
-                    <div>{Math.floor(grant.relevance * 100)}%</div>
-                    <div>{grant.name}</div>
-                    <div>{grant.org_name}</div>
-                    <div>v</div>
-                  </div>
-                )
-              })
-            }
-          </div>
+          {
+            grantResults.map((grant: GrantResult) => {
+              return (
+                <div className={styles.GrantSearchResult} key={grant.id}>
+                  {
+                    grant.relevance !== null ?
+                    <div>{Math.floor(grant.relevance * 100)} + "%"</div>:
+                    ""
+                  }
+                  <div>{grant.name}</div>
+                  <div>{grant.org_name}</div>
+                  <div>v</div>
+                </div>
+              )
+            })
+          }
         </div>
       </div>
 
