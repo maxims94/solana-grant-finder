@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import GrantSearch from '../components/GrantSearch'
 import Airtable from 'airtable';
+import { Configuration, OpenAIApi } from "openai";
 
 import styles from '../styles/Home.module.css'
 
@@ -57,12 +58,42 @@ export async function getStaticProps() {
     data.push({
       id: record.id,
       name: record.get('Name') as string,
-      category: (record.get('Category') || []) as string[],
-      rfp: Boolean(record.get('RFP'))
+      icon_path: null,
+      //TODO
+      //icon_path: record.get('Icon') as string,
+      description: record.get('Description') as string,
+      is_rfp: Boolean(record.get('RFP')),
+      link: record.get('Link') as string,
+      document: record.get('Document') as string,
+      org_name: record.get('Organization name') as string,
+      org_link: record.get('Organization link') as string,
+      embedding: null
     })
   }
   
-  console.log(data)
+  console.log("Request embedding...")
+  
+  if(!process.env.OPENAI_API_KEY) {
+    throw new Error("Missing OpenAI API key")
+  }
+
+  const configuration = new Configuration({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+  const openai = new OpenAIApi(configuration);
+
+  const embedding = await openai.createEmbedding({
+    model: "text-embedding-ada-002",
+    input: data.map(item => item.document),
+  })
+
+  console.log("Done")
+  
+  embedding.data.data.forEach((item, index) => {
+    data[index].embedding = item.embedding
+  })
+  
+  //console.log(data)
   
   return {
     props: { data: data }
