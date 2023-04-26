@@ -67,11 +67,11 @@ export default function GrantSearch({ data, titleFont, textFont }: { data: Grant
       console.log("Embedding of query:", queryEmbedding)
 
       // TODO: prefilter based on RFP/ Grant setting
-
       const intermediary = data.map(item => [
         cosineSimilarity(queryEmbedding, item.embedding), item
       ]).sort((a, b) => b[0] - a[0])
 
+      /*
       // normalize relevance
       const maxRelevance = intermediary[0][0]
       const minRelevance = intermediary[intermediary.length - 1][0]
@@ -83,7 +83,10 @@ export default function GrantSearch({ data, titleFont, textFont }: { data: Grant
         (relevance - minRelevance) / relevanceRange,
         item
       ]))
+      */
 
+      const normalized = intermediary
+      
       const results = normalized.map(([relevance, item]) => ({
         relevance,
         id: item.id,
@@ -147,7 +150,7 @@ export default function GrantSearch({ data, titleFont, textFont }: { data: Grant
                 <div className={styles.GrantSearchResult} key={grant.id}>
                   {
                     grant.relevance !== null ?
-                    <div>{Math.floor(grant.relevance * 100)} + "%"</div>:
+                    <div>{Math.floor(grant.relevance * 100)}%</div>:
                     ""
                   }
                   <div>{grant.name}</div>
