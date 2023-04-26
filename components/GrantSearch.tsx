@@ -1,9 +1,12 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { Grant } from '../types/Grant'
 import styles from '../styles/Home.module.css'
 import Image from 'next/image'
 
 import searchIcon from '../public/search-icon.svg'
+
+import arrowDown from '../public/arrow-down.svg'
+import { Grand_Hotel } from 'next/font/google';
 
 const cosineSimilarity = require('compute-cosine-similarity')
 
@@ -23,9 +26,16 @@ export default function GrantSearch({ data, titleFont, textFont }: { data: Grant
   const [query, setQuery] = useState('');
 
   const [grantResults, setGrantResults] = useState<GrantResult[]>([]);
+  
+  const [grantResultsExpand, setGrantResultExpand] = useState<boolean[]>([]);
+  
+  const isRFPChecked = useRef(true);
+  const isGrantChecked = useRef(true);
+  
+  const isFirst = useRef(true);
 
   const onSubmit = (event: any) => {
-    event.preventDefault()
+    event.preventDefault !== undefined && event.preventDefault()
 
     console.log("submit")
 
@@ -46,6 +56,7 @@ export default function GrantSearch({ data, titleFont, textFont }: { data: Grant
       results.sort((a, b) => (a.org_name + a.name).localeCompare(b.org_name + b.name))
 
       setGrantResults(results)
+      setGrantResultExpand(Array(results.length).fill(false))
       return
     }
 
@@ -86,7 +97,7 @@ export default function GrantSearch({ data, titleFont, textFont }: { data: Grant
       */
 
       const normalized = intermediary
-      
+
       const results = normalized.map(([relevance, item]) => ({
         relevance,
         id: item.id,
@@ -99,12 +110,29 @@ export default function GrantSearch({ data, titleFont, textFont }: { data: Grant
       })).filter(x => x.relevance > 0.1)
 
       setGrantResults(results)
-
+      setGrantResultExpand(Array(results.length).fill(false))
     })().catch((error: any) => {
       console.error(error)
       // TODO: result data? set status = error?
     })
 
+  }
+  
+  const expandGrantResult = useCallback((id: string) => () => {
+    // get index of grant result
+    const index = grantResults.findIndex(x => x.id === id)
+    if (index === -1) {
+      return
+    } else {
+      const newGrantResultExpand = [...grantResultsExpand]
+      newGrantResultExpand[index] = !newGrantResultExpand[index]
+      setGrantResultExpand(newGrantResultExpand)
+    }
+  }, [grantResultsExpand, grantResults])
+  
+  if(isFirst.current) {
+    isFirst.current = false;
+    onSubmit({target: {query: {value: ''}}})
   }
 
   return (
@@ -115,29 +143,27 @@ export default function GrantSearch({ data, titleFont, textFont }: { data: Grant
 
         <div className={textFont.className}>
           <form className={styles.GrantSearchForm} onSubmit={onSubmit}>
-            <div className={styles.GrantSearchFormRow} style={{ marginBottom: '10px' }}>
-              <label>
-                <span className={styles.FormLabel}>Search:</span>
-                <input type="text" name="query" defaultValue="nft marketplace" className={styles.QueryInput} />
-              </label>
+            <div className={styles.GrantSearchFormRow} style={{ marginBottom: '15px' }}>
+              <span className={styles.FormLabel}>Search:</span>
+              <input type="text" name="query" className={styles.QueryInput} />
               <button type="submit" className={styles.SearchButton}>
-                <Image src={searchIcon} alt="Search" width={20} height={20} />
+                <Image src={searchIcon} alt="Search" width={25} height={25} />
               </button>
             </div>
 
-            <div className={styles.GrantSearchFormRow} style={{ marginBottom: '50px', fontSize: '10pt', color: '#838383' }}>
+            <div className={styles.GrantSearchFormRow} style={{ marginBottom: '50px', fontSize: '12pt', color: '#838383' }}>
               e.g. “nft marketplace”, “hard dev problem”, “community project europe”, “writing defi”, “solana pay”<br />Leave empty to show all
             </div>
 
-            <div className={styles.GrantSearchFormRow} style={{ marginBottom: '10px' }}>
-              <label>
-                <span className={styles.FormLabel}>Type:</span>
-                <input className={styles.CheckboxInput} type="checkbox" name="type[]" /> <span className={styles.CheckboxOption}>RFP</span>
-                <input className={styles.CheckboxInput} type="checkbox" name="type[]" /> <span className={styles.CheckboxOption}>Grant</span>
-              </label>
+            <div className={styles.GrantSearchFormRow} style={{ marginBottom: '15px' }}>
+              <span className={styles.FormLabel}>Type:</span>
+              <input className={styles.CheckboxInput} type="checkbox" name="type[]" defaultChecked onChange={() => isRFPChecked.current = !isRFPChecked.current}/>
+               <span className={styles.CheckboxOption}>RFP</span>
+              <input className={styles.CheckboxInput} type="checkbox" name="type[]" defaultChecked onChange={() => isGrantChecked.current = !isGrantChecked.current}/>
+              <span className={styles.CheckboxOption}>Grant</span>
             </div>
 
-            <div className={styles.GrantSearchFormRow} style={{ fontSize: '10pt', color: '#838383' }}>
+            <div className={styles.GrantSearchFormRow} style={{ fontSize: '12pt', color: '#838383' }}>
               Looking for an idea? Make sure to check RFP (Request for Proposal)!
             </div>
           </form>
@@ -146,17 +172,29 @@ export default function GrantSearch({ data, titleFont, textFont }: { data: Grant
         <div className={textFont.className}>
           {
             grantResults.map((grant: GrantResult) => {
+              
+              const grantIndex = grantResults.findIndex(x => x.id === grant.id)
+              
               return (
+                <>
                 <div className={styles.GrantSearchResult} key={grant.id}>
                   {
                     grant.relevance !== null ?
-                    <div>{Math.floor(grant.relevance * 100)}%</div>:
+                    <div className={styles.GrantSearchResultProgress}>{Math.floor(grant.relevance * 100)}%</div>:
                     ""
                   }
-                  <div>{grant.name}</div>
-                  <div>{grant.org_name}</div>
-                  <div>v</div>
+                  <div className={styles.GrantSearchResultName}><a href={grant.link} target="_blank">{grant.name}</a></div>
+                  <div className={styles.GrantSearchResultOrgName}><a href={grant.org_link} target="_blank">{grant.org_name}</a></div>
+                  <div className={styles.GrantSearchResultExpand} onClick={expandGrantResult(grant.id)}>
+                    <Image src={arrowDown} alt="Expand" width={28} height={36} style={{ transform: grantResultsExpand[grantIndex] ? 'rotate(180deg)' : ''}}/>
+                  </div>
                 </div>
+                {
+                  grantResultsExpand[grantIndex] ?
+                  <div className={styles.GrantSearchResultDescription} key={grant.id + "desc"}>{grant.description}</div> :
+                  ""
+                }
+                </>
               )
             })
           }
