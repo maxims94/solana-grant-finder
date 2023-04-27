@@ -30,14 +30,15 @@ export default function Home({ data }: { data: Grant[]}) {
   return (
     <div className={styles.Outer}>
     
-      <div className={styles.Header} style={{ backgroundImage: `url(${headerBg.src})` }}>
+      <div className={styles.Header}>
+        <Image src={headerBg} alt="test"  className={styles.HeaderBackground}/>
         <div className={titleFont.className}>
           <div className={styles.HeaderTitle}>
             <Image src={grantFinderIcon} alt="Grant Finder" width={60} height={60} />
             <h1>Grant Finder</h1>
           </div>
           <div className={styles.HeaderSubtitle}>
-            <h1>Building on <img src={solanaLogo.src} alt="Solana" width={75} height={66} /> Solana?<br />Get paid!</h1>
+            <h1>Building on <Image src={solanaLogo.src} alt="Solana" width={75} height={66} /> Solana?<br />Get paid!</h1>
           </div>
         </div>
       </div>

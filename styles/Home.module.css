@@ -6,11 +6,22 @@
 }
 
 .Header {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     padding:0 100px;
     height: 1080px;
+    overflow:hidden;
+}
+
+.HeaderBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100wh;
+    z-index: -9999;
+    height:1080px;
 }
 
 .HeaderTitle {
@@ -26,7 +37,7 @@
 }
 
 .HeaderSubtitle {
-    margin-top: 450px;
+    margin-top: 500px;
     font-size: 60pt;
 }
 
@@ -38,7 +49,7 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    padding: 180px 100px 50px 100px; 
+    padding: 200px 100px 50px 100px; 
 }
 
 .GrantSearchInner {
@@ -51,8 +62,8 @@
 }
 
 .GrantSearchInner>h1 {
-    font-size: 40pt;
-    margin-bottom:30px;
+    font-size: 60pt;
+    margin-bottom:80px;
     text-align: center;
 }
 
