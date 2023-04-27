@@ -7,9 +7,9 @@ import searchIcon from '../public/search-icon.svg'
 
 import arrowDown from '../public/arrow-down.svg'
 
-import linkIconHover from '../public/link-icon-hover.svg'
-
 const cosineSimilarity = require('compute-cosine-similarity')
+
+const showdown = require('showdown')
 
 interface GrantResult {
   relevance: number | null, // [0,1]
@@ -148,15 +148,12 @@ export default function GrantSearch({ data, titleFont, textFont }: { data: Grant
   
   if(isFirst.current) {
     isFirst.current = false;
-    onSubmit({target: {query: {value: ''}}})
+    onSubmit({target: {query: {value: ''}}});
   }
 
   return (
 
     <div className={styles.GrantSearch}>
-      <div className={styles.preload}>
-        <Image src={linkIconHover} alt="Link" width={25} height={25} />
-      </div>
       <div className={styles.GrantSearchInner}>
         <h1 className={titleFont.className}>Explore Grants</h1>
 
@@ -195,42 +192,46 @@ export default function GrantSearch({ data, titleFont, textFont }: { data: Grant
               
               const grantIndex = grantResults.findIndex(x => x.id === grant.id)
               
+              var converter = new showdown.Converter();
+              const descriptionHtml = converter.makeHtml(grant.description)
+
               return (
-                <>
-                <div className={styles.GrantSearchResult} onClick={expandGrantResult(grant.id)} key={grant.id}>
+                <div key={grant.id}>
+                  <div className={styles.GrantSearchResult} onClick={expandGrantResult(grant.id)}>
+                    {
+                      /*
+                      not normalized
+                      grant.relevance !== null ?
+                      <div className={styles.GrantSearchResultProgress}>{grant.relevance}</div>:
+                      ""
+                      */
+                      grant.relevance !== null ?
+                      <div className={styles.GrantSearchResultProgress}>{Math.floor(grant.relevance * 100)}%</div>:
+                      ""
+                    }
+                    <div className={styles.GrantSearchResultIcon}>
+                      <img src={grant.icon_path} alt="Grant Icon" />
+                    </div>
+                    <div className={styles.GrantSearchResultName}>
+                      {grant.name}
+                      <a href={grant.link} target="_blank">
+                      </a>
+                    </div>
+                    <div className={styles.GrantSearchResultOrgName}>
+                      {grant.org_name}
+                      <a href={grant.org_link} target="_blank">
+                      </a>
+                    </div>
+                    <div className={styles.GrantSearchResultExpand}>
+                      <Image src={arrowDown} alt="Expand" width={28} height={36} style={{ transform: grantResultsExpand[grantIndex] ? 'rotate(180deg)' : ''}}/>
+                    </div>
+                  </div>
                   {
-                    /*
-                    grant.relevance !== null ?
-                    <div className={styles.GrantSearchResultProgress}>{grant.relevance}</div>:
-                    ""
-                    */
-                    grant.relevance !== null ?
-                    <div className={styles.GrantSearchResultProgress}>{Math.floor(grant.relevance * 100)}%</div>:
+                    grantResultsExpand[grantIndex] ?
+                    <div className={styles.GrantSearchResultDescription} dangerouslySetInnerHTML={{__html: descriptionHtml}}></div> :
                     ""
                   }
-                  <div className={styles.GrantSearchResultIcon}>
-                    <img src={grant.icon_path} alt="Grant Icon" />
-                  </div>
-                  <div className={styles.GrantSearchResultName}>
-                    {grant.name}
-                    <a href={grant.link} target="_blank">
-                    </a>
-                  </div>
-                  <div className={styles.GrantSearchResultOrgName}>
-                    {grant.org_name}
-                    <a href={grant.org_link} target="_blank">
-                    </a>
-                  </div>
-                  <div className={styles.GrantSearchResultExpand}>
-                    <Image src={arrowDown} alt="Expand" width={28} height={36} style={{ transform: grantResultsExpand[grantIndex] ? 'rotate(180deg)' : ''}}/>
-                  </div>
                 </div>
-                {
-                  grantResultsExpand[grantIndex] ?
-                  <div className={styles.GrantSearchResultDescription} key={grant.id + "desc"}>{grant.description}</div> :
-                  ""
-                }
-                </>
               )
             })
             : <div>No results found.</div>

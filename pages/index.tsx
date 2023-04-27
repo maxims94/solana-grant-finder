@@ -111,7 +111,7 @@ export async function getStaticProps() {
     data.push(new_item)
   }
 
-  // console.log(data)
+  //console.log(data)
   
   console.log("Request embedding...")
   
