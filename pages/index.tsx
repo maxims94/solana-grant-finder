@@ -49,7 +49,7 @@ export default function Home({ data }: { data: Grant[]}) {
 
       <div className={styles.Footer}>
         <div className={styles.FooterInner}>
-        Copyright by Grant Finder
+         © 2023 Grant Finder
         </div>
       </div>
     </div>

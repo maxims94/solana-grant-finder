@@ -128,7 +128,7 @@
     margin-top:30px;
     padding:20px 40px;
     border: 1px solid #8B8B8B;
-    font-size: 16pt;
+    font-size: 12pt;
     cursor: pointer;
 }
 
@@ -158,7 +158,7 @@
 }
 
 .GrantSearchResultProgress {
-    width:90px;
+    width:60px;
 }
 
 .GrantSearchResultName {
@@ -167,7 +167,7 @@
 }
 
 .GrantSearchResultIcon {
-    width: 75px;
+    width: 60px;
 }
 .GrantSearchResultIcon img {
     width: 30px;
@@ -195,7 +195,7 @@
     padding:20px 40px;
     border: 1px solid #8B8B8B;
     border-top: 0;
-    font-size: 16pt;
+    font-size: 12pt;
 }
 .Footer {
     position:relative;

@@ -20,6 +20,7 @@ interface GrantResult {
   link: string,
   org_name: string,
   org_link: string,
+  is_rfp: boolean
 }
 
 export default function GrantSearch({ data, titleFont, textFont }: { data: Grant[], titleFont: any, textFont: any }) {
@@ -51,8 +52,11 @@ export default function GrantSearch({ data, titleFont, textFont }: { data: Grant
         description: item.description,
         link: item.link,
         org_name: item.org_name,
-        org_link: item.org_link
-      }))
+        org_link: item.org_link,
+        is_rfp: item.is_rfp
+      })).filter(item => (
+        (isRFPChecked.current && item.is_rfp) || (isGrantChecked.current && !item.is_rfp)
+      ))
 
       results.sort((a, b) => (a.org_name + a.name).localeCompare(b.org_name + b.name))
 
@@ -116,7 +120,10 @@ export default function GrantSearch({ data, titleFont, textFont }: { data: Grant
         link: item.link,
         org_name: item.org_name,
         org_link: item.org_link,
-      })).filter(x => x.relevance > 0.1)
+        is_rfp: item.is_rfp
+      })).filter(x => x.relevance > 0.1).filter(item => (
+        (isRFPChecked.current && item.is_rfp) || (isGrantChecked.current && !item.is_rfp)
+      ))
 
       setGrantResults(results)
       setGrantResultExpand(Array(results.length).fill(false))
@@ -183,6 +190,7 @@ export default function GrantSearch({ data, titleFont, textFont }: { data: Grant
 
         <div className={textFont.className}>
           {
+            grantResults.length > 0 ?
             grantResults.map((grant: GrantResult) => {
               
               const grantIndex = grantResults.findIndex(x => x.id === grant.id)
@@ -225,6 +233,7 @@ export default function GrantSearch({ data, titleFont, textFont }: { data: Grant
                 </>
               )
             })
+            : <div>No results found.</div>
           }
         </div>
       </div>
