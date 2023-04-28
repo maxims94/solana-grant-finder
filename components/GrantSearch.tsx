@@ -214,12 +214,12 @@ export default function GrantSearch({ data, titleFont, textFont }: { data: Grant
                     </div>
                     <div className={styles.GrantSearchResultName}>
                       {grant.name}
-                      <a href={grant.link} target="_blank">
+                      <a href={grant.link} target="_blank" onClick={e => e.stopPropagation()}>
                       </a>
                     </div>
                     <div className={styles.GrantSearchResultOrgName}>
                       {grant.org_name}
-                      <a href={grant.org_link} target="_blank">
+                      <a href={grant.org_link} target="_blank" onClick={e => e.stopPropagation()}>
                       </a>
                     </div>
                     <div className={styles.GrantSearchResultExpand}>

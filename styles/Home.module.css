@@ -200,18 +200,18 @@
 }
 
 .GrantSearchResultDescription {
-    padding:20px 40px;
+    padding:40px;
     border: 1px solid #8B8B8B;
     border-top: 0;
     font-size: 14pt;
 }
 
-.GrantSearchResultDescription h1 {
+.GrantSearchResultDescription h1:not(:first-child) {
     font-size: 24pt;
     margin: 25px 0 5px 0;
 }
 
-.GrantSearchResultDescription h2 {
+.GrantSearchResultDescription h2:not(:first-child) {
     font-size: 22pt;
     margin: 10px 0 5px 0;
 }
@@ -220,11 +220,11 @@
     text-decoration: underline;
 }
 
-.GrantSearchResultDescription p {
+.GrantSearchResultDescription p:not(:last-child) {
     margin-bottom: 20px;
 }
 
-.GrantSearchResultDescription ul {
+.GrantSearchResultDescription ul:not(:last-child) {
     list-style-type: '- ';
     padding-left: 20px;
     margin-bottom: 20px;
