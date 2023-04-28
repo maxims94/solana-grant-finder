@@ -197,7 +197,6 @@
     align-items: center;
     width: 50px;
     height: 50px;
-    cursor: pointer;
 }
 
 .GrantSearchResultDescription {
@@ -225,6 +224,11 @@
     margin-bottom: 20px;
 }
 
+.GrantSearchResultDescription ul {
+    list-style-type: '- ';
+    padding-left: 20px;
+}
+
 .Footer {
     position:relative;
     margin-top: 300px;
@@ -248,7 +252,7 @@
     height: 688px;
     bottom: -400px;
     left: 600px;
-    background: radial-gradient(50% 50% at 50% 50%, rgba(128, 2, 115, 0.13) 0%, rgba(128, 2, 115, 0) 100%);
+    background: radial-gradient(50% 50% at 50% 50%, rgba(128, 2, 115, 0.2) 0%, rgba(128, 2, 115, 0) 100%);
     
     z-index: -100;
 }
@@ -260,6 +264,6 @@
     left: 0;
     bottom: -500px;
 
-    background: radial-gradient(50% 50% at 50% 50%, rgba(72, 2, 128, 0.13) 0%, rgba(72, 2, 128, 0) 100%);
+    background: radial-gradient(50% 50% at 50% 50%, rgba(72, 2, 128, 0.2) 0%, rgba(72, 2, 128, 0) 100%);
     z-index: -100;
 }
