@@ -206,14 +206,22 @@
     font-size: 14pt;
 }
 
-.GrantSearchResultDescription h1:not(:first-child) {
+.GrantSearchResultDescription h1 {
     font-size: 24pt;
-    margin: 25px 0 5px 0;
+    margin-bottom: 10px;
+}
+
+.GrantSearchResultDescription h1:not(:first-child) {
+    margin-top: 25px;
+}
+
+.GrantSearchResultDescription h2 {
+    font-size: 22pt;
+    margin-bottom: 10px;
 }
 
 .GrantSearchResultDescription h2:not(:first-child) {
-    font-size: 22pt;
-    margin: 10px 0 5px 0;
+    margin-top: 10px;
 }
 
 .GrantSearchResultDescription a {
