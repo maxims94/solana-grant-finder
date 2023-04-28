@@ -137,6 +137,10 @@
     cursor: pointer;
 }
 
+.GrantSearchResult:hover {
+    background-color: #161616;
+}
+
 .GrantSearchResultName, .GrantSearchResultOrgName {
     display: flex;
     flex-direction: row;
@@ -205,7 +209,7 @@
 
 .GrantSearchResultDescription h1 {
     font-size: 24pt;
-    margin: 10px 0 5px 0;
+    margin: 25px 0 5px 0;
 }
 
 .GrantSearchResultDescription h2 {
@@ -215,6 +219,10 @@
 
 .GrantSearchResultDescription a {
     text-decoration: underline;
+}
+
+.GrantSearchResultDescription p {
+    margin-bottom: 20px;
 }
 
 .Footer {
