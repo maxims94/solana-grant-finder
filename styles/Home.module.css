@@ -227,6 +227,7 @@
 .GrantSearchResultDescription ul {
     list-style-type: '- ';
     padding-left: 20px;
+    margin-bottom: 20px;
 }
 
 .Footer {
