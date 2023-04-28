@@ -232,9 +232,12 @@
     margin-bottom: 20px;
 }
 
-.GrantSearchResultDescription ul:not(:last-child) {
+.GrantSearchResultDescription ul {
     list-style-type: '- ';
     padding-left: 20px;
+}
+
+.GrantSearchResultDescription ul:not(:last-child) {
     margin-bottom: 20px;
 }
 
